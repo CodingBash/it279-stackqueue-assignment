@@ -74,17 +74,4 @@ NodeData Stack::top() {
 	}
 }
 
-void Stack::push(NodeData data){
-  if(!this->head){
-    this->head = new Node(data);
-  } else {
-    Node** current = &head;
-    while((*current)->getNext()){
-      current = &(*current)->getNext();
-    }
-    (*current)->setNext(new Node(data));
-  }
-  ++length;
-}
-
 #endif
