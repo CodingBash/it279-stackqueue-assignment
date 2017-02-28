@@ -3,13 +3,13 @@ CFLAGS=-std=c++11 -g -Wall
 
 all: main
 
-main: Node.o LinkedList.o Main.o Input.o Output.o
-	${CC} ${CFLAGS} -o main Node.o LinkedList.o Main.o Input.o Output.o
+main: NodeStack.o Stack.o Input.o Output.o Main.o
+	${CC} ${CFLAGS} -o main NodeStack.o Stack.o Main.o Input.o Output.o
 
-Node.o: Node.cpp Node.h
-	${CC} ${CFLAGS} -c Node.cpp
+Node.o: NodeStack.cpp NodeStack.h
+	${CC} ${CFLAGS} -c NodeStack.cpp
 
-LinkedList.o: LinkedList.cpp LinkedList.h
+LinkedList.o: Stack.cpp Stack.h
 	${CC} ${CFLAGS} -c LinkedList.cpp
 
 Main.o: Main.cpp

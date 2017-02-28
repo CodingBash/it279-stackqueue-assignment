@@ -18,10 +18,12 @@ int main() {
 	stack.push(createStackData(1, 2, 'c'));
 	stack.push(createStackData(2, 4, 'c'));
 	stack.push(createStackData(3, 2, 'c'));
+	/*
 	while (stack.length != 0) {
 		StackNS::NodeStackData result = stack.pop();
 		std::cout << result.integer_one << std::endl;
 	}
+	*/
 
 	/*
 	* Test Queue
@@ -35,9 +37,11 @@ int main() {
 	queue.queue(createQueueData("customer 1"));
 	queue.queue(createQueueData("customer 2"));
 	queue.queue(createQueueData("customer 3"));
+	/*
 	while (queue.length != 0) {
 		QueueNS::NodeQueueData result = queue.dequeue();
 		std::cout << result.name << std::endl;
 	}
+	*/
 	system("PAUSE");
 }
