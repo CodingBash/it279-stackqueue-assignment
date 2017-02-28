@@ -23,6 +23,7 @@ QueueNS::Queue::~Queue() {
 void QueueNS::Queue::queue(QueueNS::NodeQueueData data) {
 	if (!this->head) {
 		this->head = new QueueNS::Node(data);
+		head->setNext(NULL);
 	}
 	else {
 		QueueNS::Node* newNode = new QueueNS::Node(data);
@@ -48,6 +49,9 @@ QueueNS::NodeQueueData QueueNS::Queue::dequeue() {
 			previous->setNext(0);
 		}
 		delete current;
+		if (current == head) {
+			head = NULL;
+		}
 		current = NULL;
 		--length;
 		return data;
