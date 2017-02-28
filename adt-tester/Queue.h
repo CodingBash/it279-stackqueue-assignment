@@ -55,11 +55,17 @@ QueueNS::NodeQueueData Queue::dequeue() {
 	}
 	else {
 		QueueNS::Node* current = head;
+		QueueNS::Node* previous = NULL;
 		while (current->getNext()) {
+			previous = current;
 			current = current->getNext();
 		}
 		QueueNS::NodeQueueData data = current->getData();
+		if (previous) {
+			previous->setNext(0);
+		}
 		delete current;
+		current = NULL;
 		--length;
 		return data;
 	}

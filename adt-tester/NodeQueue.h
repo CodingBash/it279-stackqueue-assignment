@@ -1,12 +1,11 @@
 #ifndef GUARD_NODEQUEUE_H
 #define GUARD_NODEQUEUE_H
+#include <string>
 
 namespace QueueNS {
 	struct NodeQueueData {
 	public:
-		char character;
-		int integer_one;
-		int integer_two;
+		std::string name;
 	};
 
 	class Node {
