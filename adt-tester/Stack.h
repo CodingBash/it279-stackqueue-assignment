@@ -1,19 +1,16 @@
 #ifndef GUARD_STACK_H
 #define GUARD_STACK_H
-#include "Node.h"
-#include <iostream>
+#include "NodeStack.h"
 #include <cstdlib>
 #include <cstddef>
-#include <string>
-#include <vector>
 
 class Stack {
 public:
-	Node* head;
+	StackNS::Node* head;
 	std::size_t length;
-	void push(NodeData data);
-	NodeData pop();
-	NodeData top();
+	void push(StackNS::NodeStackData data);
+	StackNS::NodeStackData pop();
+	StackNS::NodeStackData top();
 	Stack();
 	~Stack();
 };
@@ -26,8 +23,8 @@ Stack::Stack() {
 
 Stack::~Stack() {
 	if (this->head) {
-		Node* current = head;
-		Node* next = current->getNext();
+		StackNS::Node* current = head;
+		StackNS::Node* next = current->getNext();
 		delete current;
 		while (next) {
 			current = next;
@@ -39,25 +36,25 @@ Stack::~Stack() {
 	}
 }
 
-void Stack::push(NodeData data) {
+void Stack::push(StackNS::NodeStackData data) {
 	if (!this->head) {
-		this->head = new Node(data);
+		this->head = new StackNS::Node(data);
 	}
 	else {
-		Node* newNode = new Node(data);
+		StackNS::Node* newNode = new StackNS::Node(data);
 		newNode->setNext(head);
 		head = newNode;
 	}
 	++length;
 }
 
-NodeData Stack::pop() {
+StackNS::NodeStackData Stack::pop() {
 	if (!this->head) {
-		return NodeData();
+		return StackNS::NodeStackData();
 	}
 	else {
-		NodeData data = head->getData();
-		Node* current = head;
+		StackNS::NodeStackData data = head->getData();
+		StackNS::Node* current = head;
 		head = head->getNext();
 		delete current;
 		--length;
@@ -65,9 +62,9 @@ NodeData Stack::pop() {
 	}
 }
 
-NodeData Stack::top() {
+StackNS::NodeStackData Stack::top() {
 	if (!this->head) {
-		return NodeData();
+		return StackNS::NodeStackData();
 	}
 	else {
 		return head->getData();

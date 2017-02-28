@@ -1,18 +1,16 @@
 #ifndef GUARD_QUEUE_H
 #define GUARD_QUEUE_H
-#include "Node.h"
-#include <iostream>
+#include "NodeQueue.h"
 #include <cstdlib>
 #include <cstddef>
-#include <string>
-#include <vector>
+
 
 class Queue {
 public:
-	Node* head;
+	QueueNS::Node* head;
 	std::size_t length;
-	void queue(NodeData data);
-	NodeData dequeue();
+	void queue(QueueNS::NodeQueueData data);
+	QueueNS::NodeQueueData dequeue();
 	Queue();
 	~Queue();
 };
@@ -25,8 +23,8 @@ Queue::Queue() {
 
 Queue::~Queue() {
 	if (this->head) {
-		Node* current = head;
-		Node* next = current->getNext();
+		QueueNS::Node* current = head;
+		QueueNS::Node* next = current->getNext();
 		delete current;
 		while (next) {
 			current = next;
@@ -38,12 +36,12 @@ Queue::~Queue() {
 	}
 }
 
-void Queue::queue(NodeData data) {
+void Queue::queue(QueueNS::NodeQueueData data) {
 	if (!this->head) {
-		this->head = new Node(data);
+		this->head = new QueueNS::Node(data);
 	}
 	else {
-		Node* newNode = new Node(data);
+		QueueNS::Node* newNode = new QueueNS::Node(data);
 		newNode->setNext(head);
 		head = newNode;
 	}
@@ -51,16 +49,16 @@ void Queue::queue(NodeData data) {
 }
 
 
-NodeData Queue::dequeue() {
+QueueNS::NodeQueueData Queue::dequeue() {
 	if (!this->head) {
-		return NodeData();
+		return QueueNS::NodeQueueData();
 	}
 	else {
-		Node* current = head;
+		QueueNS::Node* current = head;
 		while (current->getNext()) {
 			current = current->getNext();
 		}
-		NodeData data = current->getData();
+		QueueNS::NodeQueueData data = current->getData();
 		delete current;
 		--length;
 		return data;
