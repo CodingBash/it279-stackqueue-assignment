@@ -20,25 +20,5 @@ namespace StackNS {
 		void setNext(Node* next);
 		Node(NodeStackData data);
 	};
-
-	Node::Node(NodeStackData data) {
-		this->data = data;
-	}
-
-	NodeStackData Node::getData() {
-		return this->data;
-	}
-
-	Node*& Node::getNext() {
-		return this->next;
-	}
-
-	void Node::setData(NodeStackData data) {
-		this->data = data;
-	}
-
-	void Node::setNext(Node* next) {
-		this->next = next;
-	}
 }
 #endif

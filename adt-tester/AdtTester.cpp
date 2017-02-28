@@ -7,7 +7,7 @@ int main() {
 	/*
 	* Test Stack
 	*/
-	Stack stack = Stack();
+	StackNS::Stack stack = StackNS::Stack();
 	auto createStackData = [](int one, int two, char c) -> StackNS::NodeStackData {
 		StackNS::NodeStackData data = StackNS::NodeStackData();
 		data.integer_one = one;
@@ -26,7 +26,7 @@ int main() {
 	/*
 	* Test Queue
 	*/
-	Queue queue = Queue();
+	QueueNS::Queue queue = QueueNS::Queue();
 	auto createQueueData = [](std::string name) -> QueueNS::NodeQueueData {
 		QueueNS::NodeQueueData data = QueueNS::NodeQueueData();
 		data.name = name;

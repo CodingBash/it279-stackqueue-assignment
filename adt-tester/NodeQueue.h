@@ -19,25 +19,5 @@ namespace QueueNS {
 		void setNext(Node* next);
 		Node(NodeQueueData data);
 	};
-
-	Node::Node(NodeQueueData data) {
-		this->data = data;
-	}
-
-	NodeQueueData Node::getData() {
-		return this->data;
-	}
-
-	Node*& Node::getNext() {
-		return this->next;
-	}
-
-	void Node::setData(NodeQueueData data) {
-		this->data = data;
-	}
-
-	void Node::setNext(Node* next) {
-		this->next = next;
-	}
 }
 #endif
