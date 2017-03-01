@@ -13,6 +13,7 @@ namespace QueueNS {
 		QueueNS::NodeQueueData dequeue();
 		Queue();
 		~Queue();
+		int size();
 	};
 }
 
