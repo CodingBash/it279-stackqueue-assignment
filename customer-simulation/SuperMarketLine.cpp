@@ -13,7 +13,7 @@ int determineArrivalTime(int,int);
 int serviceTime(int);
 void arrivalMessage(int,int);
 void departureMessage(int,int);
-NodeQueueData createQueueElement(int,int);
+int determineMaxWaitTime(int,int,int);
 
 int main(){
 	int dayLength =720;
@@ -21,7 +21,13 @@ int main(){
 	int maxLine = 0;
 	int currentTime = 0;
 	int customerIntervals = 0;
-	queue<int> customerLine;// queue for customers
+	Queue queue = Queue();// queue for customers
+	auto createQueueData =[](int customerNumber, int arrivalTime) -> NodeQueueData {
+		NodeQueueData data = NodeQueueData();
+		data.customerNumber = customerNumber;
+		data.arrivalTime = arrivalTime;
+		return data;
+	};
 	
 	while(customerIntervals<1)
 	{
@@ -42,7 +48,6 @@ int main(){
 	int customerNumber=1;
 	int arrivalTime = determineArrivalTime(currentTime,customerIntervals);
 	int serviceTimeValue = -1;
-	int currentCustomer = customerNumber;
 	while(currentTime<=dayLength)
 	{
 		
@@ -50,39 +55,39 @@ int main(){
 		{
 			arrivalTime = determineArrivalTime(currentTime, customerIntervals);
 			arrivalMessage(customerNumber,currentTime);
-			if(customerLine.size()==0)
+			if(queue.size() == 0)
 			{
 				serviceTimeValue = currentTime + serviceTime(customerIntervals);
-				customerLine.queue(createQueueElement(customerNumber,currentTime)); //Customer added to line				
-				currentCustomer = customerLine.dequeue().customerNumber; //No line so Customer Service begins
+				queue.queue(createQueueData(customerNumber,currentTime));
 			}
 			else
 			{
-				customerLine.queue(createQueueElement(customerNumber,currentTime)); //Customer added to line				
+
+				queue.queue(createQueueData(customerNumber,currentTime)); //Customer added to line				
 			}
 			customerNumber++;
-			if((customerLine.size()-1) >maxLine)
+			if((queue.size()-1) >maxLine)
 			{
-				maxLine = customerLine.size() -1;
+				maxLine = queue.size() -1;
 			}
 			//cout<<maxLine<<"\t";	//for debugging
 		}
 		
 		if(currentTime == serviceTimeValue)
 		{
-			departureMessage(currentCustomer,currentTime);
-			if(customerLine.size() != 1)
+			NodeQueueData temp = queue.dequeue();
+			departureMessage(temp.customerNumber,currentTime);
+			if(queue.size() != 0)
 			{
 				serviceTimeValue = currentTime + serviceTime(customerIntervals);
+				maxWait = determineMaxWaitTime(temp.arrivalTime,currentTime,maxWait);
 			}
 			else
 				serviceTimeValue = -1;
-			currentCustomer = customerLine.dequeue().customerNumber1;
 		}
-		//cout << savedWaitTime <<"\t"<<maxLine <<"\t"<<serviceTimeValue <<"\t" <<currentTime;		
-		//cout<<"\n";       //used during debugging
+		//cout <<"\t"<<maxLine <<"\t"<<serviceTimeValue <<"\t" <<currentTime;		
+		//cout<<"\n";       //used during debugging		
 		currentTime++;
-		
 	}	
 	
 
@@ -134,11 +139,9 @@ void departureMessage(int customerNumber, int customerTime)
 	cout <<"Customer "<<customerNumber <<" left at "<< customerTime <<"\n";
 }
 
-
-NodeQueueData createQueueElement(int customerNumber, int currentTime)
+int determineMaxWaitTime(int customerArrival, int customerServiceTime, int maxWait)
 {
-	NodeQueueData temp;
-	temp.customerNumber = customerNumber;
-	temp.arrivalTime = currentTime;
-	return temp;
+	if((customerServiceTime - customerArrival)>maxWait)
+		maxWait= customerServiceTime - customerArrival;
+	return maxWait;
 }
