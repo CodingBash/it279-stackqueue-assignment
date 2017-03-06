@@ -1,10 +1,16 @@
 #include "Queue.h"
 
+/*
+*	Queue constructor
+*/
 QueueNS::Queue::Queue() {
 	this->head = NULL;
 	this->length = 0;
 }
 
+/*
+*	Queue destructor
+*/
 QueueNS::Queue::~Queue() {
 	if (this->head) {
 		QueueNS::Node* current = head;
@@ -20,6 +26,9 @@ QueueNS::Queue::~Queue() {
 	}
 }
 
+/*
+*	Add data to the Queue
+*/
 void QueueNS::Queue::queue(QueueNS::NodeQueueData data) {
 	if (!this->head) {
 		this->head = new QueueNS::Node(data);
@@ -33,6 +42,9 @@ void QueueNS::Queue::queue(QueueNS::NodeQueueData data) {
 	++length;
 }
 
+/*
+*	Recieve data from the Queue
+*/
 QueueNS::NodeQueueData QueueNS::Queue::dequeue() {
 	if (!this->head) {
 		return QueueNS::NodeQueueData();
@@ -58,6 +70,9 @@ QueueNS::NodeQueueData QueueNS::Queue::dequeue() {
 	}
 }
 
+/*
+*	Retrieve Queue size
+*/
 int QueueNS::Queue::size()
 {
 	return length;

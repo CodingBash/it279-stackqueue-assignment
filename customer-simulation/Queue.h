@@ -5,6 +5,9 @@
 #include <cstddef>
 
 namespace QueueNS {
+	/*
+	*	Class for the Queue ADT
+	*/
 	class Queue {
 	public:
 		QueueNS::Node* head;

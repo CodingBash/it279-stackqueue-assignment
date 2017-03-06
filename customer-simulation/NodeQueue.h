@@ -3,12 +3,18 @@
 #include <string>
 
 namespace QueueNS {
+  /*
+  *	Class for the Queue Node Data
+  */
 	struct NodeQueueData {
 	public:
 		int customerNumber;
 		int arrivalTime;
 	};
 
+  /*
+  *	Class for the Queue Node
+  */
 	class Node {
 	private:
 		NodeQueueData data;
