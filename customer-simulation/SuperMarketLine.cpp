@@ -29,14 +29,14 @@ int main(){
 		return data;
 	};
 	
-	while(customerIntervals<1)
+	while(customerIntervals<=1)
 	{
 		string sequence;
 		cout<< "Enter Maximum difference in Customer Arrival: ";
 		cin >> sequence;
 		customerIntervals = stringToInt(sequence);
-		if(customerIntervals>=1 && customerIntervals <=dayLength);
-		else if(customerIntervals <1)
+		if(customerIntervals>1 && customerIntervals <=dayLength);
+		else if(customerIntervals <=1)
 			cout << "Customers must arrive at least 1 minute apart. Try again\n";
 		else if(customerIntervals >dayLength)
 		{
@@ -99,14 +99,14 @@ int main(){
 	if(maxWait !=1)
 		cout<<"s";
 	cout<<" long\n\n";
-	
+
 	return 0;
 }
 
 int stringToInt(string sequence)
 {
  int returnable=0;
- for(int i = 0; i<static_cast<int>(sequence.size());++i)
+for(int i = 0; i<static_cast<int>(sequence.size());++i)
     {
 	if(sequence.size()!=0)
 	{
