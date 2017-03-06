@@ -2,6 +2,9 @@
 #define GUARD_NODESTACK_H
 
 namespace StackNS {
+	/*
+	*	Class for the Stack Node Data
+	*/
 	struct NodeStackData {
 	public:
 		char character;
@@ -9,6 +12,9 @@ namespace StackNS {
 		int integer_two;
 	};
 
+  /*
+  *	Class for the Stack Node
+  */
 	class Node {
 	private:
 		NodeStackData data;

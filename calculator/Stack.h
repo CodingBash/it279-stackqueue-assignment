@@ -5,6 +5,9 @@
 #include <cstddef>
 
 namespace StackNS {
+	/*
+	*	Class for the Stack ADT
+	*/
 	class Stack {
 	public:
 		StackNS::Node* head;

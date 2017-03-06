@@ -1,10 +1,16 @@
 #include "Stack.h"
 
+/*
+*	Stack constructor
+*/
 StackNS::Stack::Stack() {
 	this->head = NULL;
 	this->length = 0;
 }
 
+/*
+*	Stack destructor
+*/
 StackNS::Stack::~Stack() {
 	if (this->head) {
 		StackNS::Node* current = head;
@@ -20,6 +26,9 @@ StackNS::Stack::~Stack() {
 	}
 }
 
+/*
+*	Push data to the Stack
+*/
 void StackNS::Stack::push(StackNS::NodeStackData data) {
 	if (!this->head) {
 		this->head = new StackNS::Node(data);
@@ -32,6 +41,9 @@ void StackNS::Stack::push(StackNS::NodeStackData data) {
 	++length;
 }
 
+/*
+*	Pop data from the stack
+*/
 StackNS::NodeStackData StackNS::Stack::pop() {
 	if (!this->head) {
 		return StackNS::NodeStackData();
@@ -46,6 +58,9 @@ StackNS::NodeStackData StackNS::Stack::pop() {
 	}
 }
 
+/*
+*	Retrieve the top data from the stack
+*/
 StackNS::NodeStackData StackNS::Stack::top() {
 	if (!this->head) {
 		return StackNS::NodeStackData();
