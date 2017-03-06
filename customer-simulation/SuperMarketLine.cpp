@@ -2,8 +2,9 @@
 #include <stdlib.h>
 #include <string>
 #include <sstream>
-#include <queue>
+#include "Queue.h"
 using namespace std;
+using namespace QueueNS;
 
 
 
@@ -12,14 +13,21 @@ int determineArrivalTime(int,int);
 int serviceTime(int);
 void arrivalMessage(int,int);
 void departureMessage(int,int);
+int determineMaxWaitTime(int,int,int);
 
 int main(){
-	int dayLength =60;
+	int dayLength =720;
 	int maxWait = 0;
 	int maxLine = 0;
 	int currentTime = 0;
 	int customerIntervals = 0;
-	queue<int> customerLine;// queue for customers
+	Queue queue = Queue();// queue for customers
+	auto createQueueData =[](int customerNumber, int arrivalTime) -> NodeQueueData {
+		NodeQueueData data = NodeQueueData();
+		data.customerNumber = customerNumber;
+		data.arrivalTime = arrivalTime;
+		return data;
+	};
 	
 	while(customerIntervals<1)
 	{
@@ -40,9 +48,6 @@ int main(){
 	int customerNumber=1;
 	int arrivalTime = determineArrivalTime(currentTime,customerIntervals);
 	int serviceTimeValue = -1;
-	int currentCustomer = customerNumber;
-	int savedWaitTime=-1;
-	int savedCustomer=-1;
 	while(currentTime<=dayLength)
 	{
 		
@@ -50,58 +55,39 @@ int main(){
 		{
 			arrivalTime = determineArrivalTime(currentTime, customerIntervals);
 			arrivalMessage(customerNumber,currentTime);
-			if(customerLine.empty())
+			if(queue.size() == 0)
 			{
 				serviceTimeValue = currentTime + serviceTime(customerIntervals);
-				customerLine.push(customerNumber);
-				currentCustomer= customerLine.front(); //No line so Customer Service begins
-				savedCustomer = -1;//Reset saved values
-				savedWaitTime = -1;
+				queue.queue(createQueueData(customerNumber,currentTime));
 			}
 			else
 			{
-				customerLine.push(customerNumber); //Customer added to line
-				if(savedCustomer==-1)
-				{
-					savedCustomer = customerNumber;
-					savedWaitTime = 0;
-				}
-				
+
+				queue.queue(createQueueData(customerNumber,currentTime)); //Customer added to line				
 			}
 			customerNumber++;
-			if((customerLine.size()-1) >maxLine)
+			if((queue.size()-1) >maxLine)
 			{
-				maxLine = customerLine.size() -1;
+				maxLine = queue.size() -1;
 			}
 			//cout<<maxLine<<"\t";	//for debugging
 		}
 		
 		if(currentTime == serviceTimeValue)
 		{
-			departureMessage(currentCustomer,currentTime);
-			if(customerLine.size() != 1)
+			NodeQueueData temp = queue.dequeue();
+			departureMessage(temp.customerNumber,currentTime);
+			if(queue.size() != 0)
 			{
 				serviceTimeValue = currentTime + serviceTime(customerIntervals);
+				maxWait = determineMaxWaitTime(temp.arrivalTime,currentTime,maxWait);
 			}
 			else
 				serviceTimeValue = -1;
-			customerLine.pop();
-			currentCustomer = customerLine.front();
-			if(currentCustomer == savedCustomer)
-			{
-				if(savedWaitTime> maxWait)
-					maxWait = savedWaitTime;
-				savedWaitTime = -1; //reset values
-				savedCustomer =-1;
-			}
-			
 		}
-		//cout << savedWaitTime <<"\t"<<maxLine <<"\t"<<serviceTimeValue <<"\t" <<currentTime;		
-		//cout<<"\n";       //used during debugging
+		//cout <<"\t"<<maxLine <<"\t"<<serviceTimeValue <<"\t" <<currentTime;		
+		//cout<<"\n";       //used during debugging		
 		currentTime++;
-		if(savedWaitTime != -1)
-			savedWaitTime++;
-		
 	}	
 	
 
@@ -120,7 +106,7 @@ int main(){
 int stringToInt(string sequence)
 {
  int returnable=0;
- for(int i = 0; i<sequence.size();++i)
+ for(int i = 0; i<static_cast<int>(sequence.size());++i)
     {
 	if(sequence.size()!=0)
 	{
@@ -151,4 +137,11 @@ void arrivalMessage(int customerNumber,int customerTime)
 void departureMessage(int customerNumber, int customerTime)
 {
 	cout <<"Customer "<<customerNumber <<" left at "<< customerTime <<"\n";
+}
+
+int determineMaxWaitTime(int customerArrival, int customerServiceTime, int maxWait)
+{
+	if((customerServiceTime - customerArrival)>maxWait)
+		maxWait= customerServiceTime - customerArrival;
+	return maxWait;
 }
