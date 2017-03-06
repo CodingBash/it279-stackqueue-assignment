@@ -5,7 +5,8 @@
 namespace QueueNS {
 	struct NodeQueueData {
 	public:
-		std::string name;
+		int customerNumber;
+		int arrivalTime;
 	};
 
 	class Node {

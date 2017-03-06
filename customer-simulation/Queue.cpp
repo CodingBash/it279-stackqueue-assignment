@@ -58,7 +58,7 @@ QueueNS::NodeQueueData QueueNS::Queue::dequeue() {
 	}
 }
 
-int QueueNS::Queue size()
+int QueueNS::Queue::size()
 {
 	return length;
 }

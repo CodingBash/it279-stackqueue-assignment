@@ -3,16 +3,16 @@ CFLAGS=-std=c++11 -g -Wall
 
 all: main
 
-main: NodeQueue.o Queue.o Main.o
-	${CC} ${CFLAGS} -o main NodeQueue.o Main.o
+main: NodeQueue.o SuperMarketLine.o Queue.o
+	${CC} ${CFLAGS} -o NodeQueue.o SuperMarketLine.o Queue.o
 
-Node.o: NodeQueue.cpp NodeQueue.h
+NodeQueue.o: NodeQueue.cpp NodeQueue.h
 	${CC} ${CFLAGS} -c NodeQueue.cpp
 
 Queue.o: Queue.cpp Queue.h
 	${CC} ${CFLAGS} -c Queue.cpp
 
-Main.o: SuperMarketLine.cpp
+SuperMarketLine.o: SuperMarketLine.cpp
 	${CC} ${CFLAGS} -c SuperMarketLine.cpp
 
 clean:

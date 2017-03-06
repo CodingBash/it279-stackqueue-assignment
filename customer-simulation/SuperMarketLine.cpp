@@ -106,7 +106,7 @@ int main(){
 int stringToInt(string sequence)
 {
  int returnable=0;
- for(int i = 0; i<sequence.size();++i)
+ for(int i = 0; i<static_cast<int>(sequence.size());++i)
     {
 	if(sequence.size()!=0)
 	{
