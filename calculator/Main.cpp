@@ -4,10 +4,13 @@
 #include <string>
 using namespace std;
 
+//This is the varible that willl be updated every time the user enters in a command
 int curResult = 0;
 
+//Stack used to keep track of all the input and the results of the input
 StackNS::Stack stack = StackNS::Stack();
 
+//Simple operations included here to avoid clutter in main method.
 void add(int numIn)
 {
 	curResult += numIn;
@@ -52,17 +55,22 @@ int main()
 		return data;
 	};
 	
+	//The stack starts with these values. It also does not allow the user to use undo on this node
 	stack.push(createStackData(0,0,'T'));
-
+	
+	//stack that is used to keep track of the nodes that have been popped by undp
 	StackNS::Stack undoDataStack = StackNS::Stack();
 	
+	//Node data to keep track of the node poped off during undo operations
 	StackNS::NodeStackData undoData;
 	
 	cout << curResult;
 	
-	bool redoEnabled = false;
 	
-	int count = 0;
+	//Keeps track of the number of undo operations in a row.
+	//If something other than an undo or redo is entered, the int is reset
+	int numRedo = 0;
+	bool isRedo = false;
 	
 	while(true)
 	{	
@@ -72,21 +80,27 @@ int main()
 		char inputChar;
 		cin >> inputChar;
 		
-		if(inputChar != 'R')
+		//this checks to see if a redo operation is a possibility
+		if(inputChar != 'R' && inputChar != 'U')
 		{
-			redoEnabled = false;
+			numRedo = 0;
+			isRedo = false;
 		}
 		
 		int numIn;
 		
+		//Quit functionality
 		if(inputChar == 'Q')
 		{
 			cout << "\nGoodbye\n";
 			exit(0);
 		}
+		
+		//Redo functionality
 		if(inputChar == 'R')
 		{
-			if(redoEnabled == false)
+			//if there havent been any Undo operations, there cant't be any redos.
+			if(numRedo == 0)
 			{
 				cout << "No operations to redo" << endl;
 				cout << curResult;
@@ -97,50 +111,56 @@ int main()
 				undoData = undoDataStack.pop();
 				inputChar = undoData.character;
 				numIn = undoData.integer_one;
+				numRedo--;
+				isRedo = true;
 			}
 		}
+		
+		//Clear functionality
 		if(inputChar == 'C')
-		{	//TODO make sure that this counts as an action when using the undo command.
+		{
 			stack.push(createStackData(0,curResult,inputChar));
 			curResult = 0;
 			cout << curResult;
 			continue;
 		}
+		
+		//Undo functionality
 		if(inputChar == 'U')
-		{
+		{	//Can not Undo the initial node
 			if(stack.top().character == 'T')
 			{
 				cout << "There is no operation to undo" << endl;
 				cout << curResult;
 				continue;
 			}
+			//Pop the node, revert to previous total, store node in case of undo
 			undoData = stack.pop();
 			undoDataStack.push(undoData);
 			curResult = undoData.integer_two;
-			redoEnabled = true;
+			numRedo++;
 			cout << curResult;
 			continue;
 		}
 		
-		if(redoEnabled == false)
+		//If it is not a Redo, there should be an int input from the user if the code reaches this point
+		if(isRedo == false)
 		{
 			cin >> numIn;
 		}
 		
-		
+		//Switch case depending on the operation that is sent in by the user
 		switch (inputChar)
 		{
 			case '+':
 				stack.push(createStackData(numIn,curResult,inputChar));
 				add(numIn);
 				cout << curResult;
-				count++;
 				break;
 			case '-':
 				stack.push(createStackData(numIn,curResult,inputChar));
 				subtract(numIn);
 				cout << curResult;
-				count++;
 				break;
 				
 				
@@ -148,18 +168,16 @@ int main()
 				stack.push(createStackData(numIn,curResult,inputChar));
 				multiply(numIn);
 				cout << curResult;
-				count++;
 				break;
 			case '/':
 				if((abs(curResult) > abs(numIn)))
 				{
 					stack.push(createStackData(numIn,curResult,inputChar));
 					divide(numIn);
-					cout << curResult;
-					count++;	
+					cout << curResult;	
 				}
 				else
-				{
+				{	//Check to make sure that the operation is doable
 					cout << "This opertion can not be completed" << endl;
 					cout << curResult;
 				}
@@ -168,7 +186,6 @@ int main()
 				stack.push(createStackData(numIn,curResult,inputChar));
 				divide(numIn);
 				cout << curResult;
-				count++;
 				break;
 			default:
 				cout << "Invalid command entered";
